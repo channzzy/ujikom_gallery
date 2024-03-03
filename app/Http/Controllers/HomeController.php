@@ -17,8 +17,11 @@ class HomeController extends Controller
      */
     public function index()
     {
+        $albums = [];
+        if (Auth::user()) {
+            $albums = AlbumPhoto::where('user_id', Auth::user()->id)->latest()->get();
+        }
         $photos = Photo::latest()->get();
-        $albums = AlbumPhoto::latest()->get();
         return view('home',compact('photos','albums'));
     }
 
